@@ -1,0 +1,954 @@
+{
+  "name": "VitaForge · 01 Przyjęcie i realizacja zamówienia",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": null,
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0,
+          "name": "Nowe zamówienie (Shopify)"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "module": "util:SetVariables",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "api_faktury",
+            "value": "https://hook.eu1.make.com/TWOJ_MOCK_API?mock=invoice"
+          },
+          {
+            "name": "api_wysylki",
+            "value": "https://hook.eu1.make.com/TWOJ_MOCK_API?mock=shipment"
+          },
+          {
+            "name": "email_obslugi",
+            "value": "twoj.mail+obsluga@gmail.com"
+          },
+          {
+            "name": "email",
+            "value": "{{lower(trim(1.email))}}"
+          },
+          {
+            "name": "domena",
+            "value": "{{last(split(lower(trim(1.email)); \"@\"))}}"
+          },
+          {
+            "name": "wartosc",
+            "value": "{{parseNumber(1.total_price; \".\")}}"
+          },
+          {
+            "name": "klient",
+            "value": "{{1.shipping_address.first_name}} {{1.shipping_address.last_name}}"
+          },
+          {
+            "name": "tel_cyfry",
+            "value": "{{replace(replace(replace(replace(replace(trim(1.shipping_address.phone); \" \"; emptystring); \"+\"; emptystring); \"-\"; emptystring); \"(\"; emptystring); \")\"; emptystring)}}"
+          },
+          {
+            "name": "dostawa",
+            "value": "{{first(map(1.shipping_lines; \"code\"))}}"
+          },
+          {
+            "name": "paczkomat",
+            "value": "{{first(map(1.note_attributes; \"value\"; \"name\"; \"paczkomat\"))}}"
+          },
+          {
+            "name": "max_ilosc",
+            "value": "{{max(map(1.line_items; \"quantity\"))}}"
+          },
+          {
+            "name": "nowy_klient",
+            "value": "{{if(1.customer.orders_count <= 1; 1; 0)}}"
+          }
+        ]
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0,
+          "name": "Dane"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "module": "util:SetVariables",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "telefon",
+            "value": "{{if(length(2.tel_cyfry) = 11 & substring(2.tel_cyfry; 0; 2) = \"48\"; substring(2.tel_cyfry; 2; 11); 2.tel_cyfry)}}"
+          },
+          {
+            "name": "bledy",
+            "value": "{{if(ifempty(2.email; \"#\") = \"#\"; \"brak e-maila; \"; if(contains(2.email; \"@\") & contains(2.domena; \".\"); emptystring; \"nieprawidłowy e-mail; \"))}}{{if(length(ifempty(1.shipping_address.zip; \"#\")) = 6 & substring(ifempty(1.shipping_address.zip; \"#\"); 2; 3) = \"-\"; emptystring; \"nieprawidłowy kod pocztowy; \")}}{{if(length(2.tel_cyfry) = 9; emptystring; if(length(2.tel_cyfry) = 11 & substring(2.tel_cyfry; 0; 2) = \"48\"; emptystring; \"nieprawidłowy telefon; \"))}}{{if(length(1.line_items) = 0; \"brak pozycji; \"; emptystring)}}{{if(2.dostawa = \"inpost_locker\" & ifempty(2.paczkomat; \"#\") = \"#\"; \"brak paczkomatu; \"; emptystring)}}"
+          },
+          {
+            "name": "ryzyko_pkt",
+            "value": "{{if(2.wartosc > 1500; 30; 0) + if(2.nowy_klient = 1 & 2.wartosc > 600; 15; 0) + if(contains(split(\"mailinator.com,yopmail.com,10minutemail.com,guerrillamail.com,tempmail.com,trashmail.com\"; \",\"); 2.domena); 30; 0) + if(lower(1.billing_address.city) != lower(1.shipping_address.city); 25; 0) + if(2.max_ilosc >= 10; 20; 0) + if(1.gateway = \"cash_on_delivery\" & 2.wartosc > 800; 15; 0)}}"
+          },
+          {
+            "name": "powody_ryzyka",
+            "value": "{{if(2.wartosc > 1500; \"wysoka wartość; \"; emptystring)}}{{if(2.nowy_klient = 1 & 2.wartosc > 600; \"nowy klient z dużym koszykiem; \"; emptystring)}}{{if(contains(split(\"mailinator.com,yopmail.com,10minutemail.com,guerrillamail.com,tempmail.com,trashmail.com\"; \",\"); 2.domena); \"jednorazowy e-mail; \"; emptystring)}}{{if(lower(1.billing_address.city) != lower(1.shipping_address.city); \"różne miasto faktury i dostawy; \"; emptystring)}}{{if(2.max_ilosc >= 10; \"duża ilość jednego produktu; \"; emptystring)}}{{if(1.gateway = \"cash_on_delivery\" & 2.wartosc > 800; \"pobranie przy wysokiej kwocie; \"; emptystring)}}"
+          }
+        ]
+      },
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0,
+          "name": "Walidacja i ryzyko"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "module": "datastore:ExistRecord",
+      "version": 1,
+      "parameters": {
+        "datastore": null
+      },
+      "mapper": {
+        "key": "vf{{1.id}}"
+      },
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0,
+          "name": "Czy już przetworzone?"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "mapper": null,
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 0
+        }
+      },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 6,
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "parameters": {
+                "__IMTCONN__": null
+              },
+              "mapper": {
+                "mode": "map",
+                "insertUnformatted": false,
+                "valueInputOption": "USER_ENTERED",
+                "spreadsheetId": "TWOJE_ID_ARKUSZA",
+                "sheetId": "Błędy",
+                "tableFirstRow": "A1:Z1",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "{{1.name}}",
+                  "2": "{{1.id}}",
+                  "3": "duplikat",
+                  "4": "Ponowna dostawa webhooka – zignorowano",
+                  "5": "{{2.email}}"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1500,
+                  "y": -600,
+                  "name": "Log duplikatu"
+                }
+              },
+              "filter": {
+                "name": "A · Duplikat",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{if(4.exist; \"tak\"; \"nie\")}}",
+                      "o": "text:equal",
+                      "b": "tak"
+                    }
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 7,
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "parameters": {
+                "__IMTCONN__": null
+              },
+              "mapper": {
+                "mode": "map",
+                "insertUnformatted": false,
+                "valueInputOption": "USER_ENTERED",
+                "spreadsheetId": "TWOJE_ID_ARKUSZA",
+                "sheetId": "Błędy",
+                "tableFirstRow": "A1:Z1",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "{{1.name}}",
+                  "2": "{{1.id}}",
+                  "3": "błędne dane",
+                  "4": "{{3.bledy}}",
+                  "5": "{{2.email}}"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1500,
+                  "y": -300,
+                  "name": "Log błędu danych"
+                }
+              },
+              "filter": {
+                "name": "B · Błędne dane",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{if(4.exist; \"tak\"; \"nie\")}}",
+                      "o": "text:equal",
+                      "b": "nie"
+                    },
+                    {
+                      "a": "{{length(3.bledy)}}",
+                      "o": "number:greater",
+                      "b": "0"
+                    }
+                  ]
+                ]
+              }
+            },
+            {
+              "id": 8,
+              "module": "google-email:sendAnEmail",
+              "version": 4,
+              "parameters": {
+                "__IMTCONN__": null
+              },
+              "mapper": {
+                "to": [
+                  "{{2.email_obslugi}}"
+                ],
+                "subject": "⚠️ Zamówienie {{1.name}} wymaga poprawy danych",
+                "bodyType": "rawHtml",
+                "content": "Zamówienie {{1.name}} ({{2.klient}}, {{1.total_price}} zł) zatrzymane. Problemy: <b>{{3.bledy}}</b><br>Skontaktuj się z klientem: {{1.email}}, {{1.shipping_address.phone}}"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1800,
+                  "y": -300,
+                  "name": "Mail do obsługi"
+                }
+              }
+            },
+            {
+              "id": 9,
+              "module": "datastore:AddRecord",
+              "version": 1,
+              "parameters": {
+                "datastore": null
+              },
+              "mapper": {
+                "key": "vf{{1.id}}",
+                "overwrite": true,
+                "data": {
+                  "nr": "{{1.name}}",
+                  "status": "błąd danych",
+                  "data": "{{now}}"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 2100,
+                  "y": -300,
+                  "name": "Zapis statusu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 10,
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "parameters": {
+                "__IMTCONN__": null
+              },
+              "mapper": {
+                "mode": "map",
+                "insertUnformatted": false,
+                "valueInputOption": "USER_ENTERED",
+                "spreadsheetId": "TWOJE_ID_ARKUSZA",
+                "sheetId": "Do weryfikacji",
+                "tableFirstRow": "A1:Z1",
+                "values": {
+                  "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                  "1": "{{1.name}}",
+                  "2": "{{1.id}}",
+                  "3": "{{2.klient}}",
+                  "4": "{{2.email}}",
+                  "5": "{{2.wartosc}}",
+                  "6": "{{3.ryzyko_pkt}}",
+                  "7": "{{3.powody_ryzyka}}"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1500,
+                  "y": 0,
+                  "name": "Arkusz weryfikacji"
+                }
+              },
+              "filter": {
+                "name": "C · Do weryfikacji",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{if(4.exist; \"tak\"; \"nie\")}}",
+                      "o": "text:equal",
+                      "b": "nie"
+                    },
+                    {
+                      "a": "{{length(3.bledy)}}",
+                      "o": "number:equal",
+                      "b": "0"
+                    },
+                    {
+                      "a": "{{3.ryzyko_pkt}}",
+                      "o": "number:greaterorequal",
+                      "b": "50"
+                    }
+                  ]
+                ]
+              }
+            },
+            {
+              "id": 11,
+              "module": "slack:CreateMessage",
+              "version": 4,
+              "parameters": {
+                "__IMTCONN__": null
+              },
+              "mapper": {
+                "channelWType": "manualy",
+                "channel": "#zamowienia",
+                "text": ":rotating_light: *Zamówienie {{1.name}} wstrzymane do weryfikacji* ({{3.ryzyko_pkt}} pkt)\nKlient: {{2.klient}} · {{1.total_price}} zł · {{1.gateway}}\nPowody: {{3.powody_ryzyka}}\nDecyzja w arkuszu „Do weryfikacji”."
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1800,
+                  "y": 0,
+                  "name": "Alert Slack"
+                }
+              }
+            },
+            {
+              "id": 12,
+              "module": "datastore:AddRecord",
+              "version": 1,
+              "parameters": {
+                "datastore": null
+              },
+              "mapper": {
+                "key": "vf{{1.id}}",
+                "overwrite": true,
+                "data": {
+                  "nr": "{{1.name}}",
+                  "status": "wstrzymane",
+                  "data": "{{now}}"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 2100,
+                  "y": 0,
+                  "name": "Zapis statusu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 13,
+              "module": "builtin:BasicFeeder",
+              "version": 1,
+              "parameters": {},
+              "mapper": {
+                "array": "{{1.line_items}}"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1500,
+                  "y": 300,
+                  "name": "Pozycje koszyka"
+                }
+              },
+              "filter": {
+                "name": "D · Realizacja",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{if(4.exist; \"tak\"; \"nie\")}}",
+                      "o": "text:equal",
+                      "b": "nie"
+                    },
+                    {
+                      "a": "{{length(3.bledy)}}",
+                      "o": "number:equal",
+                      "b": "0"
+                    },
+                    {
+                      "a": "{{3.ryzyko_pkt}}",
+                      "o": "number:less",
+                      "b": "50"
+                    }
+                  ]
+                ]
+              }
+            },
+            {
+              "id": 14,
+              "module": "google-sheets:filterRows",
+              "version": 2,
+              "parameters": {
+                "__IMTCONN__": null
+              },
+              "mapper": {
+                "from": "drive",
+                "spreadsheetId": "TWOJE_ID_ARKUSZA",
+                "sheetId": "Magazyn",
+                "tableFirstRow": "A1:Z1",
+                "includesHeaders": true,
+                "filter": [
+                  [
+                    {
+                      "a": "A",
+                      "b": "{{13.sku}}",
+                      "o": "text:equal"
+                    }
+                  ]
+                ],
+                "limit": 1
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1800,
+                  "y": 300,
+                  "name": "Stan magazynu"
+                }
+              }
+            },
+            {
+              "id": 15,
+              "module": "util:SetVariables",
+              "version": 1,
+              "parameters": {},
+              "mapper": {
+                "scope": "roundtrip",
+                "variables": [
+                  {
+                    "name": "brak",
+                    "value": "{{if(14.`5` < 13.quantity; 1; 0)}}"
+                  },
+                  {
+                    "name": "pozycja_txt",
+                    "value": "{{13.quantity}}× {{13.title}}"
+                  },
+                  {
+                    "name": "pozycja_json",
+                    "value": "{\"name\": \"{{13.title}}\", \"quantity\": {{13.quantity}}, \"total_price_gross\": {{parseNumber(13.price; \".\") * 13.quantity}}, \"tax\": {{14.`4`}}}"
+                  }
+                ]
+              },
+              "metadata": {
+                "designer": {
+                  "x": 2100,
+                  "y": 300,
+                  "name": "Pozycja"
+                }
+              }
+            },
+            {
+              "id": 16,
+              "module": "builtin:BasicAggregator",
+              "version": 1,
+              "parameters": {
+                "feeder": 13
+              },
+              "mapper": {
+                "sku": "{{13.sku}}",
+                "title": "{{13.title}}",
+                "quantity": "{{13.quantity}}",
+                "stan": "{{14.`5`}}",
+                "rownum": "{{14.`__ROW_NUMBER__`}}",
+                "brak": "{{15.brak}}",
+                "pozycja_txt": "{{15.pozycja_txt}}",
+                "pozycja_json": "{{15.pozycja_json}}"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 2400,
+                  "y": 300,
+                  "name": "Agregacja koszyka"
+                }
+              }
+            },
+            {
+              "id": 17,
+              "module": "util:SetVariables",
+              "version": 1,
+              "parameters": {},
+              "mapper": {
+                "scope": "roundtrip",
+                "variables": [
+                  {
+                    "name": "liczba_brakow",
+                    "value": "{{sum(map(16.array; \"brak\")) + length(1.line_items) - length(16.array)}}"
+                  },
+                  {
+                    "name": "lista_brakow",
+                    "value": "{{join(map(16.array; \"title\"; \"brak\"; \"1\"); \", \")}}"
+                  },
+                  {
+                    "name": "pozycje",
+                    "value": "{{join(map(16.array; \"pozycja_txt\"); \", \")}}"
+                  }
+                ]
+              },
+              "metadata": {
+                "designer": {
+                  "x": 2700,
+                  "y": 300,
+                  "name": "Podsumowanie koszyka"
+                }
+              }
+            },
+            {
+              "id": 18,
+              "module": "builtin:BasicRouter",
+              "version": 1,
+              "mapper": null,
+              "metadata": {
+                "designer": {
+                  "x": 3000,
+                  "y": 300
+                }
+              },
+              "routes": [
+                {
+                  "flow": [
+                    {
+                      "id": 19,
+                      "module": "google-sheets:addRow",
+                      "version": 2,
+                      "parameters": {
+                        "__IMTCONN__": null
+                      },
+                      "mapper": {
+                        "mode": "map",
+                        "insertUnformatted": false,
+                        "valueInputOption": "USER_ENTERED",
+                        "spreadsheetId": "TWOJE_ID_ARKUSZA",
+                        "sheetId": "Błędy",
+                        "tableFirstRow": "A1:Z1",
+                        "values": {
+                          "0": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}",
+                          "1": "{{1.name}}",
+                          "2": "{{1.id}}",
+                          "3": "brak towaru",
+                          "4": "Brak: {{17.lista_brakow}}{{if(length(1.line_items) > length(16.array); \" + nieznane SKU\"; emptystring)}}",
+                          "5": "{{2.email}}"
+                        }
+                      },
+                      "metadata": {
+                        "designer": {
+                          "x": 3300,
+                          "y": 150,
+                          "name": "Log braku towaru"
+                        }
+                      },
+                      "filter": {
+                        "name": "D1 · Brak towaru",
+                        "conditions": [
+                          [
+                            {
+                              "a": "{{17.liczba_brakow}}",
+                              "o": "number:greater",
+                              "b": "0"
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    {
+                      "id": 20,
+                      "module": "google-email:sendAnEmail",
+                      "version": 4,
+                      "parameters": {
+                        "__IMTCONN__": null
+                      },
+                      "mapper": {
+                        "to": [
+                          "{{2.email}}"
+                        ],
+                        "subject": "Twoje zamówienie {{1.name}} – krótkie opóźnienie",
+                        "bodyType": "rawHtml",
+                        "content": "<p>Dzień dobry {{1.shipping_address.first_name}},</p><p>dziękujemy za zamówienie! Produkt <b>{{17.lista_brakow}}</b> chwilowo jest niedostępny. Skontaktujemy się w ciągu 24 h z propozycją: wysyłka po dostawie, zamiennik albo zwrot środków.</p><p>Zespół VitaForge</p>"
+                      },
+                      "metadata": {
+                        "designer": {
+                          "x": 3600,
+                          "y": 150,
+                          "name": "Mail do klienta: opóźnienie"
+                        }
+                      }
+                    },
+                    {
+                      "id": 21,
+                      "module": "slack:CreateMessage",
+                      "version": 4,
+                      "parameters": {
+                        "__IMTCONN__": null
+                      },
+                      "mapper": {
+                        "channelWType": "manualy",
+                        "channel": "#zamowienia",
+                        "text": ":package: {{1.name}} czeka na towar: {{17.lista_brakow}} · klient {{2.klient}}, {{1.total_price}} zł"
+                      },
+                      "metadata": {
+                        "designer": {
+                          "x": 3900,
+                          "y": 150,
+                          "name": "Alert Slack"
+                        }
+                      }
+                    },
+                    {
+                      "id": 22,
+                      "module": "datastore:AddRecord",
+                      "version": 1,
+                      "parameters": {
+                        "datastore": null
+                      },
+                      "mapper": {
+                        "key": "vf{{1.id}}",
+                        "overwrite": true,
+                        "data": {
+                          "nr": "{{1.name}}",
+                          "status": "oczekuje na towar",
+                          "data": "{{now}}"
+                        }
+                      },
+                      "metadata": {
+                        "designer": {
+                          "x": 4200,
+                          "y": 150,
+                          "name": "Zapis statusu"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "flow": [
+                    {
+                      "id": 23,
+                      "module": "http:ActionSendData",
+                      "version": 3,
+                      "parameters": {
+                        "handleErrors": false
+                      },
+                      "mapper": {
+                        "url": "{{2.api_faktury}}",
+                        "method": "post",
+                        "bodyType": "raw",
+                        "contentType": "application/json",
+                        "data": "{\"api_token\": \"DEMO_TOKEN\", \"invoice\": {\"kind\": \"vat\", \"sell_date\": \"{{formatDate(now; \"YYYY-MM-DD\")}}\", \"issue_date\": \"{{formatDate(now; \"YYYY-MM-DD\")}}\", \"payment_type\": \"{{if(1.gateway = \"cash_on_delivery\"; \"cod\"; \"transfer\")}}\", \"status\": \"{{if(1.financial_status = \"paid\"; \"paid\"; \"issued\")}}\", \"buyer_name\": \"{{2.klient}}\", \"buyer_email\": \"{{2.email}}\", \"buyer_street\": \"{{1.billing_address.address1}}\", \"buyer_post_code\": \"{{1.billing_address.zip}}\", \"buyer_city\": \"{{1.billing_address.city}}\", \"buyer_country\": \"PL\", \"oid\": \"{{1.name}}\", \"positions\": [{{join(map(16.array; \"pozycja_json\"); \",\")}}]}}",
+                        "parseResponse": true,
+                        "serializeUrl": false,
+                        "shareCookies": false,
+                        "followRedirect": true,
+                        "useQuerystring": false,
+                        "gzip": true,
+                        "useMtls": false,
+                        "followAllRedirects": false,
+                        "rejectUnauthorized": true
+                      },
+                      "metadata": {
+                        "designer": {
+                          "x": 3300,
+                          "y": 450,
+                          "name": "Wystaw fakturę (Fakturownia)"
+                        }
+                      },
+                      "onerror": [
+                        {
+                          "id": 30,
+                          "module": "builtin:Break",
+                          "version": 1,
+                          "parameters": {},
+                          "mapper": {
+                            "count": 3,
+                            "retry": true,
+                            "interval": 5
+                          },
+                          "metadata": {
+                            "designer": {
+                              "x": 0,
+                              "y": 0
+                            }
+                          }
+                        }
+                      ],
+                      "filter": {
+                        "name": "D2 · Wysyłka",
+                        "conditions": [
+                          [
+                            {
+                              "a": "{{17.liczba_brakow}}",
+                              "o": "number:equal",
+                              "b": "0"
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    {
+                      "id": 24,
+                      "module": "http:ActionSendData",
+                      "version": 3,
+                      "parameters": {
+                        "handleErrors": false
+                      },
+                      "mapper": {
+                        "url": "{{2.api_wysylki}}",
+                        "method": "post",
+                        "bodyType": "raw",
+                        "contentType": "application/json",
+                        "data": "{\"receiver\": {\"name\": \"{{2.klient}}\", \"first_name\": \"{{1.shipping_address.first_name}}\", \"last_name\": \"{{1.shipping_address.last_name}}\", \"email\": \"{{2.email}}\", \"phone\": \"{{3.telefon}}\", \"address\": {\"street\": \"{{1.shipping_address.address1}}\", \"city\": \"{{1.shipping_address.city}}\", \"post_code\": \"{{1.shipping_address.zip}}\", \"country_code\": \"PL\"}}, \"parcels\": {\"template\": \"small\"}, \"custom_attributes\": {\"target_point\": \"{{2.paczkomat}}\", \"sending_method\": \"dispatch_order\"}, \"service\": \"{{if(2.dostawa = \"inpost_locker\"; \"inpost_locker_standard\"; \"inpost_courier_standard\")}}\", \"reference\": \"{{1.name}}\"}",
+                        "parseResponse": true,
+                        "serializeUrl": false,
+                        "shareCookies": false,
+                        "followRedirect": true,
+                        "useQuerystring": false,
+                        "gzip": true,
+                        "useMtls": false,
+                        "followAllRedirects": false,
+                        "rejectUnauthorized": true
+                      },
+                      "metadata": {
+                        "designer": {
+                          "x": 3600,
+                          "y": 450,
+                          "name": "Utwórz przesyłkę (InPost ShipX)"
+                        }
+                      },
+                      "onerror": [
+                        {
+                          "id": 31,
+                          "module": "builtin:Break",
+                          "version": 1,
+                          "parameters": {},
+                          "mapper": {
+                            "count": 3,
+                            "retry": true,
+                            "interval": 5
+                          },
+                          "metadata": {
+                            "designer": {
+                              "x": 0,
+                              "y": 0
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "id": 25,
+                      "module": "google-email:sendAnEmail",
+                      "version": 4,
+                      "parameters": {
+                        "__IMTCONN__": null
+                      },
+                      "mapper": {
+                        "to": [
+                          "{{2.email}}"
+                        ],
+                        "subject": "Zamówienie {{1.name}} przyjęte do realizacji ✅",
+                        "bodyType": "rawHtml",
+                        "content": "<p>Dzień dobry {{1.shipping_address.first_name}},</p><p>dziękujemy za zakupy w VitaForge! Twoje zamówienie <b>{{1.name}}</b> jest już pakowane.</p><p><b>Produkty:</b> {{17.pozycje}}<br><b>Kwota:</b> {{1.total_price}} zł<br><b>Faktura:</b> <a href=\"{{23.data.view_url}}\">{{23.data.number}}</a><br><b>Śledzenie przesyłki:</b> <a href=\"https://inpost.pl/sledzenie-przesylek?number={{24.data.tracking_number}}\">{{24.data.tracking_number}}</a></p><p>Zespół VitaForge</p>"
+                      },
+                      "metadata": {
+                        "designer": {
+                          "x": 3900,
+                          "y": 450,
+                          "name": "Potwierdzenie dla klienta"
+                        }
+                      }
+                    },
+                    {
+                      "id": 26,
+                      "module": "google-sheets:addRow",
+                      "version": 2,
+                      "parameters": {
+                        "__IMTCONN__": null
+                      },
+                      "mapper": {
+                        "mode": "map",
+                        "insertUnformatted": false,
+                        "valueInputOption": "USER_ENTERED",
+                        "spreadsheetId": "TWOJE_ID_ARKUSZA",
+                        "sheetId": "Zamówienia",
+                        "tableFirstRow": "A1:Z1",
+                        "values": {
+                          "0": "{{formatDate(1.created_at; \"YYYY-MM-DD HH:mm\")}}",
+                          "1": "{{1.name}}",
+                          "2": "{{1.id}}",
+                          "3": "{{2.klient}}",
+                          "4": "{{2.email}}",
+                          "5": "{{2.wartosc}}",
+                          "6": "{{1.gateway}}",
+                          "7": "{{2.dostawa}}",
+                          "8": "{{17.pozycje}}",
+                          "9": "{{3.ryzyko_pkt}}",
+                          "10": "wysłane do realizacji",
+                          "11": "{{23.data.number}}",
+                          "12": "{{23.data.view_url}}",
+                          "13": "{{24.data.tracking_number}}",
+                          "14": "https://inpost.pl/sledzenie-przesylek?number={{24.data.tracking_number}}"
+                        }
+                      },
+                      "metadata": {
+                        "designer": {
+                          "x": 4200,
+                          "y": 450,
+                          "name": "Log zamówienia"
+                        }
+                      }
+                    },
+                    {
+                      "id": 27,
+                      "module": "datastore:AddRecord",
+                      "version": 1,
+                      "parameters": {
+                        "datastore": null
+                      },
+                      "mapper": {
+                        "key": "vf{{1.id}}",
+                        "overwrite": true,
+                        "data": {
+                          "nr": "{{1.name}}",
+                          "status": "zrealizowane",
+                          "data": "{{now}}"
+                        }
+                      },
+                      "metadata": {
+                        "designer": {
+                          "x": 4500,
+                          "y": 450,
+                          "name": "Zapis statusu"
+                        }
+                      }
+                    },
+                    {
+                      "id": 28,
+                      "module": "builtin:BasicFeeder",
+                      "version": 1,
+                      "parameters": {},
+                      "mapper": {
+                        "array": "{{16.array}}"
+                      },
+                      "metadata": {
+                        "designer": {
+                          "x": 4800,
+                          "y": 450,
+                          "name": "Pozycje do zdjęcia"
+                        }
+                      }
+                    },
+                    {
+                      "id": 29,
+                      "module": "google-sheets:updateRow",
+                      "version": 2,
+                      "parameters": {
+                        "__IMTCONN__": null
+                      },
+                      "mapper": {
+                        "mode": "map",
+                        "valueInputOption": "USER_ENTERED",
+                        "spreadsheetId": "TWOJE_ID_ARKUSZA",
+                        "sheetId": "Magazyn",
+                        "tableFirstRow": "A1:Z1",
+                        "rowNumber": "{{28.rownum}}",
+                        "values": {
+                          "5": "{{28.stan - 28.quantity}}",
+                          "13": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}} · {{1.name}}"
+                        }
+                      },
+                      "metadata": {
+                        "designer": {
+                          "x": 5100,
+                          "y": 450,
+                          "name": "Zdejmij ze stanu"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": true,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": true,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": []
+    }
+  }
+}

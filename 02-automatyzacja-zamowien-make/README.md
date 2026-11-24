@@ -74,18 +74,32 @@ Szczegóły, moduł po module, są w [`docs/instrukcja-budowy.md`](docs/instrukc
 
 ### Wyniki testów
 
-<!-- Uzupełnij po teście T6 (docs/testy.md) prawdziwymi liczbami z historii wykonań Make -->
+Test na żywo w Make, 24.11.2026: 21 webhooków z symulatora (`--scenario mix --count 20`, w tym ponowiona dostawa jednego zamówienia).
+
 | Metryka | Wynik |
 |---|---|
-| Zamówień testowych (mix) | _20_ |
-| Zgodność trasy z oczekiwaną (`runs/run_*.csv`) | _…/20_ |
-| Średni czas obsługi zamówienia D2 | _… s_ |
-| Operacje Make na zamówienie D2 | _~24_ |
+| Zgodność trasy z oczekiwaną (manifest symulatora vs arkusz) | **21/21** (12× D2, 1× D1, 4× B, 3× C, 1× A) |
+| Wykonania zakończone błędem | **0** |
+| Średni czas obsługi zamówienia D2 (faktura + przesyłka + mail + arkusz + magazyn) | **ok. 3,7 s** |
+| Operacje Make na zamówienie D2 | 19–22 (+2 w Mock API) |
+| Trasy A–C | 5–7 operacji |
+| Scenariusz 03: drugie uruchomienie tego samego dnia | **0 maili** (żadnych podwójnych zamówień u dostawców) |
+
+![Zakładka Zamówienia po teście](docs/screenshots/04-arkusz-zamowienia.png)
 
 <table><tr>
 <td width="50%"><img src="docs/screenshots/06-mail-potwierdzenie.png" alt="Mail do klienta"></td>
 <td width="50%"><img src="docs/screenshots/07-slack.png" alt="Alerty na Slacku"></td>
 </tr><tr><td align="center">Potwierdzenie dla klienta</td><td align="center">Alerty na Slacku</td></tr></table>
+
+---
+
+### Czego nauczyło mnie wdrożenie (rzeczy, których nie ma w dokumentacji)
+
+- **Wyrażenia regularne w formułach Make wywracały cały scenariusz** („Cannot initialize the scenario”), zanim przyszło pierwsze zamówienie. Walidację kodu pocztowego, telefonu i e-maila przepisałem na funkcje tekstowe (`length`, `substring`, `contains`), co dodatkowo jest czytelniejsze dla osoby, która przejmie scenariusz.
+- **Klucz w data store musi być tekstem.** ID zamówienia z Shopify to liczba i sprawdzenie „czy już przetworzone” go nie znajdowało, więc ponowiony webhook przechodził dalej. Klucz `vf{{id}}` naprawił idempotencję, co potwierdził test z duplikatem.
+- **„Search rows” bez wyników zwraca pusty pakiet**, a nie zero pakietów. Bez filtra za tym modułem scenariusz 03 próbował aktualizować wiersz „undefined”.
+- **Plan Free pozwala na 2 aktywne scenariusze.** Aktywne są 01 i Mock API; scenariusz 03 uruchamiam przyciskiem *Run once* (na płatnym planie działa codziennie o 8:00 bez zmian w logice).
 
 ---
 
@@ -130,7 +144,7 @@ nr         wartość  ryzyko  oczekiwana trasa     opis
 │   ├── VitaForge_Operacje.xlsx   # szablon do importu w Google Sheets (5 zakładek)
 │   └── build_sheet.py
 ├── make/
-│   ├── blueprints/           # 02-mock-api (gotowy do importu) + eksporty 01 i 03 po zbudowaniu
+│   ├── blueprints/           # 01, 02 (Mock API) i 03: gotowe do importu (Import blueprint)
 │   └── build_mock_blueprint.py
 ├── samples/                  # przykładowe payloady zamówień + manifest.csv
 └── docs/

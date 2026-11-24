@@ -1,5 +1,10 @@
 # Instrukcja budowy scenariuszy w Make – moduł po module
 
+> **Najszybciej:** zaimportuj gotowe scenariusze z `make/blueprints/` (*Create a new scenario › … › Import blueprint*),
+> a potem w każdym module wybierz swoje połączenia (Google, Gmail, Slack), arkusz i data store.
+> Blueprinty są źródłem prawdy: to wersje, które przeszły test 21/21. Poniższy opis tłumaczy logikę krok po kroku;
+> formuły walidacji w blueprincie używają funkcji tekstowych zamiast wyrażeń regularnych (patrz README, „Czego nauczyło mnie wdrożenie”).
+
 Czas: ok. 3–4 godziny za pierwszym razem. Buduj w kolejności z tej instrukcji: Make nadaje modułom numery
 w kolejności dodawania, a formuły odwołują się do nich (`{{2.wartosc}}` = pole `wartosc` z modułu nr 2).
 Jeśli numer wyjdzie Ci inny, po prostu wybierz to samo pole z panelu mapowania.

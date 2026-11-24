@@ -132,7 +132,7 @@
       <figure class="shot" style="margin:0" id="make-shot">
         <img src="02-automatyzacja-zamowien-make/docs/screenshots/01-scenariusz-glowny.png" alt="Scenariusz główny w Make" loading="lazy"
              onerror="this.closest('figure').style.display='none';document.getElementById('make-flow').style.display='block'">
-        <figcaption>Scenariusz główny w Make: 5 tras, każde zamówienie trafia dokładnie do jednej</figcaption>
+        <figcaption>Scenariusz główny w Make (29 modułów): każde zamówienie trafia dokładnie do jednej z 5 tras</figcaption>
       </figure>
       <div id="make-flow" class="shot" style="display:none;padding:20px">
         <h3>Przepływ</h3>
@@ -145,6 +145,7 @@
       <div>
         <div class="block"><h3>Decyzje, które robią różnicę</h3>
           <ul class="res">
+            <li><b>test na żywo: 21/21 zamówień na właściwej trasie</b>, 0 błędów, ok. 3,7 s od zamówienia do maila z fakturą i numerem przesyłki</li>
             <li>idempotencja: ponowiony webhook nie wystawi drugiej faktury</li>
             <li>stan magazynu zdejmowany na końcu: awaria API nie rozjeżdża magazynu</li>
             <li>punktowy model ryzyka: blokuje kombinacja sygnałów, a nie jeden</li>

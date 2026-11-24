@@ -1,7 +1,5 @@
 # Jak pokazać ten projekt w CV, na LinkedIn i na rozmowie
 
-> Liczby w nawiasach kwadratowych uzupełnij wynikami własnych testów (docs/testy.md, T6).
-
 ## Do CV (sekcja „Projekty”)
 
 **Automatyzacja obsługi zamówień e-commerce | Make, REST API, Google Sheets, Python**
@@ -9,7 +7,7 @@
 - Wdrożyłem punktowy model ryzyka (6 sygnałów, m.in. jednorazowy e-mail, pobranie przy wysokiej kwocie, hurtowe ilości), który wstrzymuje podejrzane zamówienia do decyzji człowieka z alertem na Slacku.
 - Zabezpieczyłem proces przed typowymi awariami: idempotencja przez data store (ponowienia webhooków), przetwarzanie sekwencyjne, ponowienia wywołań API i zdejmowanie stanu dopiero po sukcesie.
 - Zautomatyzowałem zamówienia do dostawców: codzienny scenariusz grupuje produkty poniżej progu i wysyła jeden mail z tabelą do każdego dostawcy.
-- Napisałem w Pythonie symulator webhooków Shopify z przypadkami brzegowymi i oczekiwanym wynikiem dla każdego zamówienia; zgodność tras w teście: [20/20].
+- Napisałem w Pythonie symulator webhooków Shopify z przypadkami brzegowymi i oczekiwanym wynikiem dla każdego zamówienia; zgodność tras w teście na żywo: 21/21, zero błędów, średnio 3,7 s na zamówienie.
 
 Wersja skrócona (1 linijka):
 > Automatyzacja zamówień e-commerce w Make: walidacja, ocena ryzyka, magazyn, faktura i etykieta InPost przez API, maile do klientów i zamówienia do dostawców.

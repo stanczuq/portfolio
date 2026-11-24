@@ -1,0 +1,233 @@
+{
+  "name": "VitaForge · 03 Niskie stany → zamówienia do dostawców",
+  "flow": [
+    {
+      "id": 1,
+      "module": "google-sheets:filterRows",
+      "version": 2,
+      "parameters": {
+        "__IMTCONN__": null
+      },
+      "mapper": {
+        "from": "drive",
+        "spreadsheetId": "TWOJE_ID_ARKUSZA",
+        "sheetId": "Magazyn",
+        "tableFirstRow": "A1:Z1",
+        "includesHeaders": true,
+        "filter": [
+          [
+            {
+              "a": "M",
+              "b": "TAK",
+              "o": "text:equal"
+            }
+          ]
+        ],
+        "limit": 50
+      },
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0,
+          "name": "Produkty do zamówienia"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "module": "google-sheets:updateRow",
+      "version": 2,
+      "parameters": {
+        "__IMTCONN__": null
+      },
+      "mapper": {
+        "mode": "map",
+        "valueInputOption": "USER_ENTERED",
+        "spreadsheetId": "TWOJE_ID_ARKUSZA",
+        "sheetId": "Magazyn",
+        "tableFirstRow": "A1:Z1",
+        "rowNumber": "{{1.`__ROW_NUMBER__`}}",
+        "values": {
+          "10": "zamówione",
+          "11": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+        }
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0,
+          "name": "Oznacz jako zamówione"
+        }
+      },
+      "filter": {
+        "name": "Jest produkt do zamówienia",
+        "conditions": [
+          [
+            {
+              "a": "{{1.`__ROW_NUMBER__`}}",
+              "o": "exist"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "parameters": {
+        "feeder": 1
+      },
+      "mapper": {
+        "dostawca": "{{1.`8`}}",
+        "email": "{{1.`9`}}",
+        "poz": "{{1.`0`}} ({{1.`7`}} szt.)",
+        "html": "<tr><td>{{1.`0`}}</td><td>{{1.`1`}}</td><td style=\"text-align:right\">{{1.`5`}}</td><td style=\"text-align:right\"><b>{{1.`7`}}</b></td></tr>"
+      },
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0,
+          "name": "Zbierz pozycje"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "array": "{{deduplicate(map(3.array; \"dostawca\"))}}"
+      },
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0,
+          "name": "Każdy dostawca"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "module": "util:SetVariables",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "email",
+            "value": "{{first(map(3.array; \"email\"; \"dostawca\"; 4.value))}}"
+          },
+          {
+            "name": "tabela",
+            "value": "{{join(map(3.array; \"html\"; \"dostawca\"; 4.value); emptystring)}}"
+          },
+          {
+            "name": "liczba",
+            "value": "{{length(map(3.array; \"html\"; \"dostawca\"; 4.value))}}"
+          }
+        ]
+      },
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 0,
+          "name": "Tabela dla dostawcy"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "module": "google-email:sendAnEmail",
+      "version": 4,
+      "parameters": {
+        "__IMTCONN__": null
+      },
+      "mapper": {
+        "to": [
+          "{{5.email}}"
+        ],
+        "subject": "Zamówienie VitaForge – {{formatDate(now; \"DD.MM.YYYY\")}}",
+        "bodyType": "rawHtml",
+        "content": "<p>Dzień dobry,</p><p>prosimy o realizację zamówienia i potwierdzenie terminu dostawy:</p><table border=\"1\" cellpadding=\"6\" style=\"border-collapse:collapse\"><tr><th>SKU</th><th>Produkt</th><th>Obecny stan</th><th>Zamawiana ilość</th></tr>{{5.tabela}}</table><p>Pozdrawiamy,<br>Dział zakupów VitaForge</p>"
+      },
+      "metadata": {
+        "designer": {
+          "x": 1500,
+          "y": 0,
+          "name": "Mail do dostawcy"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "parameters": {
+        "__IMTCONN__": null
+      },
+      "mapper": {
+        "mode": "map",
+        "insertUnformatted": false,
+        "valueInputOption": "USER_ENTERED",
+        "spreadsheetId": "TWOJE_ID_ARKUSZA",
+        "sheetId": "Zamówienia do dostawców",
+        "tableFirstRow": "A1:Z1",
+        "values": {
+          "0": "{{formatDate(now; \"YYYY-MM-DD\")}}",
+          "1": "{{4.value}}",
+          "2": "{{5.email}}",
+          "3": "{{5.liczba}}",
+          "4": "{{join(map(3.array; \"poz\"; \"dostawca\"; 4.value); \", \")}}"
+        }
+      },
+      "metadata": {
+        "designer": {
+          "x": 1800,
+          "y": 0,
+          "name": "Log zamówienia"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "module": "slack:CreateMessage",
+      "version": 4,
+      "parameters": {
+        "__IMTCONN__": null
+      },
+      "mapper": {
+        "channelWType": "manualy",
+        "channel": "#zamowienia",
+        "text": ":truck: Wysłano zamówienie do *{{4.value}}* ({{5.liczba}} poz.)"
+      },
+      "metadata": {
+        "designer": {
+          "x": 2100,
+          "y": 0,
+          "name": "Alert Slack"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": []
+    }
+  }
+}

@@ -1,5 +1,19 @@
 # Plan testów i lista zrzutów ekranu
 
+## Wyniki (24.11.2026, konto Make Free, eu1)
+
+| # | Wynik |
+|---|---|
+| T1 ok | ✅ faktura FV/2026/11/…, numer przesyłki, mail z potwierdzeniem, stan −1 |
+| T2 invalid | ✅ 4/4 (kod pocztowy, 2× telefon, e-mail) w `Błędy`, mail do obsługi, brak faktury |
+| T3 risk | ✅ 3/3 w `Do weryfikacji` (135 pkt, 6 powodów), alert na Slacku |
+| T4 stockout | ✅ `brak towaru: Kreatyna monohydrat 500 g`, mail o opóźnieniu, stan bez zmian |
+| T5 duplicate | ✅ jedna faktura, w `Błędy` wpis „duplikat” |
+| T6 mix 21 | ✅ 21/21 tras zgodnych z manifestem, 0 błędów, D2 średnio ok. 3,7 s |
+| T8 scenariusz 03 | ✅ 2 maile (NutriPol: 3 poz., VitaLab: 1 poz.), drugie uruchomienie: 0 maili |
+| T7 awaria API | nie wykonano (wymaga wyłączenia Mock API w trakcie; Break handler jest skonfigurowany) |
+
+
 ## Przypadki testowe
 
 Każdy przypadek uruchamiasz symulatorem. W kolumnie `oczekiwana_trasa` w pliku `runs/run_*.csv` jest to,
