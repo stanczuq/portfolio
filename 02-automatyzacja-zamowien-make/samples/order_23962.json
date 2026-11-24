@@ -1,0 +1,64 @@
+{
+  "id": 17955054139557,
+  "name": "#23962",
+  "order_number": 23962,
+  "email": "natalia.nowak@example.com",
+  "phone": "+48 563 647 478",
+  "created_at": "2026-11-24T08:30:13+01:00",
+  "currency": "PLN",
+  "financial_status": "paid",
+  "gateway": "przelewy24",
+  "source_name": "web",
+  "customer": {
+    "id": 7000059854,
+    "first_name": "Natalia",
+    "last_name": "Nowak",
+    "email": "natalia.nowak@example.com",
+    "orders_count": 8
+  },
+  "billing_address": {
+    "first_name": "Natalia",
+    "last_name": "Nowak",
+    "address1": "ul. Kwiatowa 73",
+    "city": "Wrocław",
+    "zip": "50-001",
+    "country_code": "PL",
+    "phone": "+48 563 647 478"
+  },
+  "shipping_address": {
+    "first_name": "Natalia",
+    "last_name": "Nowak",
+    "address1": "ul. Kwiatowa 73",
+    "city": "Wrocław",
+    "zip": "50-001",
+    "country_code": "PL",
+    "phone": "+48 563 647 478"
+  },
+  "line_items": [
+    {
+      "id": 17955055135933,
+      "sku": "KAZ-700",
+      "title": "Kazeina 700 g",
+      "quantity": 3,
+      "price": "129.00"
+    },
+    {
+      "id": 17955054826333,
+      "sku": "BOT-1L",
+      "title": "Bidon 1 l",
+      "quantity": 3,
+      "price": "35.00"
+    }
+  ],
+  "shipping_lines": [
+    {
+      "title": "Kurier InPost",
+      "code": "inpost_courier",
+      "price": "0.00"
+    }
+  ],
+  "note_attributes": [],
+  "tags": "",
+  "subtotal_price": "492.00",
+  "total_price": "492.00"
+}

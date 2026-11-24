@@ -1,0 +1,166 @@
+[
+  {
+    "numer": "23956",
+    "email": "agnieszka.nowak@example.com",
+    "imie": "Agnieszka",
+    "data": "2026-11-24",
+    "status": "w realizacji",
+    "metoda_dostawy": "inpost_locker",
+    "numer_przesylki": null,
+    "pozycje": [
+      {
+        "sku": "CAF-200",
+        "ilosc": 1
+      },
+      {
+        "sku": "BAND",
+        "ilosc": 3
+      }
+    ],
+    "wartosc": 236.0,
+    "faktura": null
+  },
+  {
+    "numer": "23950",
+    "email": "tomasz.wojcik@example.com",
+    "imie": "Tomasz",
+    "data": "2026-11-21",
+    "status": "wysłane",
+    "metoda_dostawy": "inpost_locker",
+    "numer_przesylki": "520000013395100024567012",
+    "pozycje": [
+      {
+        "sku": "WHY-2K",
+        "ilosc": 1
+      },
+      {
+        "sku": "SHK-700",
+        "ilosc": 1
+      }
+    ],
+    "wartosc": 244.0,
+    "faktura": "FV/2026/11/0412"
+  },
+  {
+    "numer": "23948",
+    "email": "marta.kaminska@example.com",
+    "imie": "Marta",
+    "data": "2026-11-20",
+    "status": "doręczone",
+    "metoda_dostawy": "inpost_courier",
+    "numer_przesylki": "520000013395100024561188",
+    "pozycje": [
+      {
+        "sku": "ISO-700",
+        "ilosc": 1
+      },
+      {
+        "sku": "OMG-120",
+        "ilosc": 1
+      }
+    ],
+    "wartosc": 208.0,
+    "faktura": "FV/2026/11/0405"
+  },
+  {
+    "numer": "23952",
+    "email": "piotr.lewandowski@example.com",
+    "imie": "Piotr",
+    "data": "2026-11-22",
+    "status": "oczekuje na towar",
+    "metoda_dostawy": "inpost_locker",
+    "numer_przesylki": null,
+    "pozycje": [
+      {
+        "sku": "KRE-500",
+        "ilosc": 2
+      },
+      {
+        "sku": "PRE-300",
+        "ilosc": 1
+      }
+    ],
+    "wartosc": 257.0,
+    "faktura": null
+  },
+  {
+    "numer": "23955",
+    "email": "k.zielinski@example.com",
+    "imie": "Krzysztof",
+    "data": "2026-11-23",
+    "status": "wymaga potwierdzenia",
+    "metoda_dostawy": "dpd_cod",
+    "numer_przesylki": null,
+    "pozycje": [
+      {
+        "sku": "CIT-300",
+        "ilosc": 12
+      },
+      {
+        "sku": "BETA-200",
+        "ilosc": 6
+      }
+    ],
+    "wartosc": 1302.0,
+    "faktura": null
+  },
+  {
+    "numer": "23945",
+    "email": "ewa.szymanska@example.com",
+    "imie": "Ewa",
+    "data": "2026-11-18",
+    "status": "doręczone",
+    "metoda_dostawy": "inpost_locker",
+    "numer_przesylki": "520000013395100024550931",
+    "pozycje": [
+      {
+        "sku": "VIT-D3K2",
+        "ilosc": 2
+      },
+      {
+        "sku": "MAG-B6",
+        "ilosc": 2
+      }
+    ],
+    "wartosc": 136.0,
+    "faktura": "FV/2026/11/0391"
+  },
+  {
+    "numer": "23957",
+    "email": "jan.kowalczyk@example.com",
+    "imie": "Jan",
+    "data": "2026-11-24",
+    "status": "przyjęte",
+    "metoda_dostawy": "inpost_courier",
+    "numer_przesylki": null,
+    "pozycje": [
+      {
+        "sku": "BELT",
+        "ilosc": 1
+      },
+      {
+        "sku": "GLOV",
+        "ilosc": 1
+      }
+    ],
+    "wartosc": 163.99,
+    "faktura": null
+  },
+  {
+    "numer": "23951",
+    "email": "ola.mazur@example.com",
+    "imie": "Aleksandra",
+    "data": "2026-11-21",
+    "status": "wysłane",
+    "metoda_dostawy": "dpd_cod",
+    "numer_przesylki": "DPD0000478812345",
+    "pozycje": [
+      {
+        "sku": "VEG-750",
+        "ilosc": 2
+      }
+    ],
+    "wartosc": 237.99,
+    "faktura": "FV/2026/11/0418"
+  }
+]

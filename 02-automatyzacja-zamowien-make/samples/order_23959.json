@@ -1,0 +1,62 @@
+{
+  "id": 17955054139554,
+  "name": "#23959",
+  "order_number": 23959,
+  "email": "pawel.kowalski@example.com",
+  "phone": "+48 544 585 813",
+  "created_at": "2026-11-24T08:30:13+01:00",
+  "currency": "PLN",
+  "financial_status": "pending",
+  "gateway": "cash_on_delivery",
+  "source_name": "web",
+  "customer": {
+    "id": 7000037303,
+    "first_name": "Paweł",
+    "last_name": "Kowalski",
+    "email": "pawel.kowalski@example.com",
+    "orders_count": 5
+  },
+  "billing_address": {
+    "first_name": "Paweł",
+    "last_name": "Kowalski",
+    "address1": "al. Jana Pawła II 9",
+    "city": "Kraków",
+    "zip": "30-001",
+    "country_code": "PL",
+    "phone": "+48 544 585 813"
+  },
+  "shipping_address": {
+    "first_name": "Paweł",
+    "last_name": "Kowalski",
+    "address1": "al. Jana Pawła II 9",
+    "city": "Kraków",
+    "zip": "30-001",
+    "country_code": "PL",
+    "phone": "+48 544 585 813"
+  },
+  "line_items": [
+    {
+      "id": 17955054818114,
+      "sku": "BOT-1L",
+      "title": "Bidon 1 l",
+      "quantity": 1,
+      "price": "35.00"
+    }
+  ],
+  "shipping_lines": [
+    {
+      "title": "InPost Paczkomat 24/7",
+      "code": "inpost_locker",
+      "price": "12.99"
+    }
+  ],
+  "note_attributes": [
+    {
+      "name": "paczkomat",
+      "value": "KRA12A"
+    }
+  ],
+  "tags": "",
+  "subtotal_price": "35.00",
+  "total_price": "47.99"
+}

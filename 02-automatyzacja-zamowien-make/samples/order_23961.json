@@ -1,0 +1,71 @@
+{
+  "id": 17955054139556,
+  "name": "#23961",
+  "order_number": 23961,
+  "email": "aleksandra.zielinska@example.com",
+  "phone": "+48 527 938 540",
+  "created_at": "2026-11-24T08:30:13+01:00",
+  "currency": "PLN",
+  "financial_status": "paid",
+  "gateway": "przelewy24",
+  "source_name": "web",
+  "customer": {
+    "id": 7000063566,
+    "first_name": "Aleksandra",
+    "last_name": "Zielińska",
+    "email": "aleksandra.zielinska@example.com",
+    "orders_count": 8
+  },
+  "billing_address": {
+    "first_name": "Aleksandra",
+    "last_name": "Zielińska",
+    "address1": "ul. Kwiatowa 36",
+    "city": "Gdańsk",
+    "zip": "80-001",
+    "country_code": "PL",
+    "phone": "+48 527 938 540"
+  },
+  "shipping_address": {
+    "first_name": "Aleksandra",
+    "last_name": "Zielińska",
+    "address1": "ul. Kwiatowa 36",
+    "city": "Gdańsk",
+    "zip": "80-001",
+    "country_code": "PL",
+    "phone": "+48 527 938 540"
+  },
+  "line_items": [
+    {
+      "id": 17955054297803,
+      "sku": "MULTI",
+      "title": "Multiwitamina Active",
+      "quantity": 1,
+      "price": "49.00"
+    },
+    {
+      "id": 17955054324328,
+      "sku": "BAND",
+      "title": "Taśmy oporowe (zestaw)",
+      "quantity": 1,
+      "price": "69.00"
+    },
+    {
+      "id": 17955054382775,
+      "sku": "ASHW",
+      "title": "Ashwagandha KSM-66",
+      "quantity": 1,
+      "price": "55.00"
+    }
+  ],
+  "shipping_lines": [
+    {
+      "title": "Kurier InPost",
+      "code": "inpost_courier",
+      "price": "16.99"
+    }
+  ],
+  "note_attributes": [],
+  "tags": "",
+  "subtotal_price": "173.00",
+  "total_price": "189.99"
+}

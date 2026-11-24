@@ -1,0 +1,64 @@
+{
+  "id": 17955535359336,
+  "name": "#85939",
+  "order_number": 85939,
+  "email": "magdalena.dabrowska@example.com",
+  "phone": "+48 534 820 487",
+  "created_at": "2026-11-24T21:52:15+01:00",
+  "currency": "PLN",
+  "financial_status": "paid",
+  "gateway": "przelewy24",
+  "source_name": "web",
+  "customer": {
+    "id": 7000082115,
+    "first_name": "Magdalena",
+    "last_name": "Dąbrowska",
+    "email": "magdalena.dabrowska@example.com",
+    "orders_count": 5
+  },
+  "billing_address": {
+    "first_name": "Magdalena",
+    "last_name": "Dąbrowska",
+    "address1": "ul. Leśna 13",
+    "city": "Wrocław",
+    "zip": "50-001",
+    "country_code": "PL",
+    "phone": "+48 534 820 487"
+  },
+  "shipping_address": {
+    "first_name": "Magdalena",
+    "last_name": "Dąbrowska",
+    "address1": "ul. Leśna 13",
+    "city": "Wrocław",
+    "zip": "50-001",
+    "country_code": "PL",
+    "phone": "+48 534 820 487"
+  },
+  "line_items": [
+    {
+      "id": 17955536043725,
+      "sku": "BELT",
+      "title": "Pas treningowy",
+      "quantity": 3,
+      "price": "89.00"
+    },
+    {
+      "id": 17955535470567,
+      "sku": "MULTI",
+      "title": "Multiwitamina Active",
+      "quantity": 1,
+      "price": "49.00"
+    }
+  ],
+  "shipping_lines": [
+    {
+      "title": "Kurier InPost",
+      "code": "inpost_courier",
+      "price": "0.00"
+    }
+  ],
+  "note_attributes": [],
+  "tags": "",
+  "subtotal_price": "316.00",
+  "total_price": "316.00"
+}

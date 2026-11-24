@@ -1,0 +1,25 @@
+sku,product_name,category,unit_price,unit_cost
+WHY-900,Białko Whey 900 g,Białko,119.0,62.0
+WHY-2K,Białko Whey 2 kg,Białko,219.0,118.0
+ISO-700,Izolat białka 700 g,Białko,149.0,82.0
+VEG-750,Białko roślinne 750 g,Białko,109.0,58.0
+KAZ-700,Kazeina 700 g,Białko,129.0,70.0
+KRE-500,Kreatyna monohydrat 500 g,Kreatyna,79.0,28.0
+KRE-250,Kreatyna monohydrat 250 g,Kreatyna,49.0,18.0
+KRE-CAP,Kreatyna kapsułki 240 szt.,Kreatyna,69.0,26.0
+KRE-ALK,Kre-Alkalyn 120 kaps.,Kreatyna,89.0,38.0
+VIT-D3K2,Witamina D3 + K2,Witaminy i zdrowie,39.0,11.0
+OMG-120,Omega-3 120 kaps.,Witaminy i zdrowie,59.0,22.0
+MAG-B6,Magnez + B6,Witaminy i zdrowie,29.0,8.0
+MULTI,Multiwitamina Active,Witaminy i zdrowie,49.0,16.0
+ASHW,Ashwagandha KSM-66,Witaminy i zdrowie,55.0,17.0
+ZINC,Cynk 25 mg,Witaminy i zdrowie,25.0,6.0
+PRE-300,Przedtreningówka 300 g,Przedtreningówki,99.0,38.0
+BETA-200,Beta-alanina 200 g,Przedtreningówki,59.0,21.0
+CIT-300,Cytrulina 300 g,Przedtreningówki,79.0,31.0
+CAF-200,Kofeina 200 kaps.,Przedtreningówki,29.0,8.0
+SHK-700,Shaker 700 ml,Akcesoria,25.0,7.0
+BELT,Pas treningowy,Akcesoria,89.0,39.0
+GLOV,Rękawiczki treningowe,Akcesoria,59.0,22.0
+BAND,Taśmy oporowe (zestaw),Akcesoria,69.0,24.0
+BOT-1L,Bidon 1 l,Akcesoria,35.0,11.0

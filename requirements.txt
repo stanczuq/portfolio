@@ -1,0 +1,4 @@
+# Wszystkie biblioteki dla trzech projektów (START.bat instaluje je do .venv)
+-r 01-dashboard-sprzedazowy/requirements.txt
+-r 02-automatyzacja-zamowien-make/requirements.txt
+-r 03-asystent-ai-obslugi-klienta/requirements.txt

@@ -1,0 +1,69 @@
+{
+  "id": 17955054139551,
+  "name": "#23956",
+  "order_number": 23956,
+  "email": "agnieszka.nowak@example.com",
+  "phone": "+48 547 529 247",
+  "created_at": "2026-11-24T08:30:13+01:00",
+  "currency": "PLN",
+  "financial_status": "paid",
+  "gateway": "przelewy24",
+  "source_name": "web",
+  "customer": {
+    "id": 7000012771,
+    "first_name": "Agnieszka",
+    "last_name": "Nowak",
+    "email": "agnieszka.nowak@example.com",
+    "orders_count": 8
+  },
+  "billing_address": {
+    "first_name": "Agnieszka",
+    "last_name": "Nowak",
+    "address1": "ul. Kwiatowa 16",
+    "city": "Wrocław",
+    "zip": "50-001",
+    "country_code": "PL",
+    "phone": "+48 547 529 247"
+  },
+  "shipping_address": {
+    "first_name": "Agnieszka",
+    "last_name": "Nowak",
+    "address1": "ul. Kwiatowa 16",
+    "city": "Wrocław",
+    "zip": "50-001",
+    "country_code": "PL",
+    "phone": "+48 547 529 247"
+  },
+  "line_items": [
+    {
+      "id": 17955054247612,
+      "sku": "CAF-200",
+      "title": "Kofeina 200 kaps.",
+      "quantity": 1,
+      "price": "29.00"
+    },
+    {
+      "id": 17955054738502,
+      "sku": "BAND",
+      "title": "Taśmy oporowe (zestaw)",
+      "quantity": 3,
+      "price": "69.00"
+    }
+  ],
+  "shipping_lines": [
+    {
+      "title": "InPost Paczkomat 24/7",
+      "code": "inpost_locker",
+      "price": "0.00"
+    }
+  ],
+  "note_attributes": [
+    {
+      "name": "paczkomat",
+      "value": "WRO05N"
+    }
+  ],
+  "tags": "",
+  "subtotal_price": "236.00",
+  "total_price": "236.00"
+}

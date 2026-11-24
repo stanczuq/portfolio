@@ -1,0 +1,197 @@
+{
+  "name": "VitaForge · 02 Mock API (Fakturownia + InPost)",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": null,
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": 2,
+      "module": "util:SetVariables",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "doc_id",
+            "value": "{{floor(random * 900000) + 100000}}"
+          },
+          {
+            "name": "tracking",
+            "value": "65{{formatDate(now; \"YYMMDDHHmmssSSS\")}}{{floor(random * 9000000) + 1000000}}"
+          }
+        ]
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": 3,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "mapper": null,
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 4,
+              "module": "gateway:WebhookRespond",
+              "version": 1,
+              "parameters": {},
+              "mapper": {
+                "status": "201",
+                "body": "{\n  \"id\": {{2.doc_id}},\n  \"number\": \"FV/{{formatDate(now; \"YYYY/MM\")}}/{{2.doc_id}}\",\n  \"kind\": \"vat\",\n  \"status\": \"issued\",\n  \"buyer_name\": \"{{1.invoice.buyer_name}}\",\n  \"oid\": \"{{1.invoice.oid}}\",\n  \"view_url\": \"https://vitaforge-demo.fakturownia.pl/invoice/{{2.doc_id}}\"\n}",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ]
+              },
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 0
+                }
+              },
+              "filter": {
+                "name": "Faktura (Fakturownia)",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{1.mock}}",
+                      "o": "text:equal",
+                      "b": "invoice"
+                    }
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 5,
+              "module": "gateway:WebhookRespond",
+              "version": 1,
+              "parameters": {},
+              "mapper": {
+                "status": "201",
+                "body": "{\n  \"id\": {{2.doc_id}},\n  \"status\": \"created\",\n  \"service\": \"{{1.service}}\",\n  \"tracking_number\": \"{{2.tracking}}\",\n  \"reference\": \"{{1.reference}}\"\n}",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ]
+              },
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 0
+                }
+              },
+              "filter": {
+                "name": "Przesyłka (InPost ShipX)",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{1.mock}}",
+                      "o": "text:equal",
+                      "b": "shipment"
+                    }
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 6,
+              "module": "gateway:WebhookRespond",
+              "version": 1,
+              "parameters": {},
+              "mapper": {
+                "status": "400",
+                "body": "{\"error\": \"unknown mock service: {{1.mock}}\"}",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ]
+              },
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 0
+                }
+              },
+              "filter": {
+                "name": "Nieznana usługa",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{1.mock}}",
+                      "o": "text:notequal",
+                      "b": "invoice"
+                    },
+                    {
+                      "a": "{{1.mock}}",
+                      "o": "text:notequal",
+                      "b": "shipment"
+                    }
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": []
+    }
+  }
+}

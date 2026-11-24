@@ -1,0 +1,62 @@
+{
+  "id": 17955054139558,
+  "name": "#23963",
+  "order_number": 23963,
+  "email": "julia.zielinska@example.com",
+  "phone": "+48 571 749 510",
+  "created_at": "2026-11-24T08:30:13+01:00",
+  "currency": "PLN",
+  "financial_status": "paid",
+  "gateway": "przelewy24",
+  "source_name": "web",
+  "customer": {
+    "id": 7000013420,
+    "first_name": "Julia",
+    "last_name": "Zielińska",
+    "email": "julia.zielinska@example.com",
+    "orders_count": 1
+  },
+  "billing_address": {
+    "first_name": "Julia",
+    "last_name": "Zielińska",
+    "address1": "ul. Długa 25",
+    "city": "Kraków",
+    "zip": "30-001",
+    "country_code": "PL",
+    "phone": "+48 571 749 510"
+  },
+  "shipping_address": {
+    "first_name": "Julia",
+    "last_name": "Zielińska",
+    "address1": "ul. Długa 25",
+    "city": "Kraków",
+    "zip": "30-001",
+    "country_code": "PL",
+    "phone": "+48 571 749 510"
+  },
+  "line_items": [
+    {
+      "id": 17955054309738,
+      "sku": "KRE-CAP",
+      "title": "Kreatyna kapsułki 240 szt.",
+      "quantity": 2,
+      "price": "69.00"
+    }
+  ],
+  "shipping_lines": [
+    {
+      "title": "InPost Paczkomat 24/7",
+      "code": "inpost_locker",
+      "price": "12.99"
+    }
+  ],
+  "note_attributes": [
+    {
+      "name": "paczkomat",
+      "value": "KRA12A"
+    }
+  ],
+  "tags": "",
+  "subtotal_price": "138.00",
+  "total_price": "150.99"
+}

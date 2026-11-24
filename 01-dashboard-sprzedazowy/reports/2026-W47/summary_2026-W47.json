@@ -1,0 +1,51 @@
+{
+  "week": "2026-W47",
+  "date_from": "2026-11-16",
+  "date_to": "2026-11-22",
+  "kpi": {
+    "revenue": 41586.55,
+    "orders": 287,
+    "aov": 149.59,
+    "gross_margin": 20681.8,
+    "gross_margin_pct": 49.73,
+    "ad_spend": 8583.05,
+    "roas": 4.85,
+    "contribution": 12098.75,
+    "return_rate_pct": 3.14,
+    "units": 568,
+    "customers": 282,
+    "new_customers": 178,
+    "returning_share_pct": 36.88,
+    "cac": 48.22
+  },
+  "kpi_change_pct": {
+    "revenue": 9.4,
+    "orders": 2.5,
+    "aov": 5.1,
+    "roas": 19.8,
+    "contribution": 23.5
+  },
+  "alerts": [
+    {
+      "level": "critical",
+      "title": "Spadek przychodu: Allegro -17% t/t",
+      "detail": "11 230 zł vs 13 590 zł tydzień wcześniej."
+    },
+    {
+      "level": "critical",
+      "title": "Możliwy brak towaru: Kreatyna monohydrat 500 g (Allegro)",
+      "detail": "Średnio 20 szt./tydz. w ostatnich 4 tygodniach, w tym tygodniu 0 szt. Sprawdź stan magazynowy i aktywność oferty."
+    },
+    {
+      "level": "good",
+      "title": "Najszybciej rosnący kanał: Amazon.pl +29% t/t",
+      "detail": "Przychód 8 069 zł."
+    }
+  ],
+  "critical_alerts": 2,
+  "slack_text": "*Raport tygodniowy VitaForge – 2026-W47*\nPrzychód: 41 587 zł (+9,4% t/t) · Zamówienia: 287 · ROAS: 4.8\n:red_circle: Spadek przychodu: Allegro -17% t/t\n:red_circle: Możliwy brak towaru: Kreatyna monohydrat 500 g (Allegro)\n:large_green_circle: Najszybciej rosnący kanał: Amazon.pl +29% t/t",
+  "files": {
+    "pdf": "raport_2026-W47.pdf",
+    "email_html": "email_2026-W47.html"
+  }
+}

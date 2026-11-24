@@ -1,0 +1,76 @@
+{
+  "id": 17955535359334,
+  "name": "#85937",
+  "order_number": 85937,
+  "email": "tomasz.mazur@example.com",
+  "phone": "+48 536 618 543",
+  "created_at": "2026-11-24T21:52:15+01:00",
+  "currency": "PLN",
+  "financial_status": "paid",
+  "gateway": "przelewy24",
+  "source_name": "web",
+  "customer": {
+    "id": 7000085318,
+    "first_name": "Tomasz",
+    "last_name": "Mazur",
+    "email": "tomasz.mazur@example.com",
+    "orders_count": 3
+  },
+  "billing_address": {
+    "first_name": "Tomasz",
+    "last_name": "Mazur",
+    "address1": "ul. Kwiatowa 49",
+    "city": "Łódź",
+    "zip": "90-001",
+    "country_code": "PL",
+    "phone": "+48 536 618 543"
+  },
+  "shipping_address": {
+    "first_name": "Tomasz",
+    "last_name": "Mazur",
+    "address1": "ul. Kwiatowa 49",
+    "city": "Łódź",
+    "zip": "90-001",
+    "country_code": "PL",
+    "phone": "+48 536 618 543"
+  },
+  "line_items": [
+    {
+      "id": 17955535850381,
+      "sku": "GLOV",
+      "title": "Rękawiczki treningowe",
+      "quantity": 1,
+      "price": "59.00"
+    },
+    {
+      "id": 17955535946304,
+      "sku": "KRE-ALK",
+      "title": "Kre-Alkalyn 120 kaps.",
+      "quantity": 3,
+      "price": "89.00"
+    },
+    {
+      "id": 17955535513931,
+      "sku": "MAG-B6",
+      "title": "Magnez + B6",
+      "quantity": 2,
+      "price": "29.00"
+    }
+  ],
+  "shipping_lines": [
+    {
+      "title": "InPost Paczkomat 24/7",
+      "code": "inpost_locker",
+      "price": "0.00"
+    }
+  ],
+  "note_attributes": [
+    {
+      "name": "paczkomat",
+      "value": "LOD21A"
+    }
+  ],
+  "tags": "",
+  "subtotal_price": "384.00",
+  "total_price": "384.00"
+}

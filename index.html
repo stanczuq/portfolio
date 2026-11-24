@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patryk Stańczuk · Portfolio: automatyzacja i AI w e-commerce</title>
+<meta name="description" content="Trzy projekty dla jednego sklepu e-commerce: dashboard sprzedażowy z raportem, automatyzacja zamówień w Make i asystent AI obsługi klienta.">
+<style>
+  :root{
+    --bg:#f6f4ee; --ink:#16181d; --muted:#5d6270; --line:#dedad0; --card:#fffdf8;
+    --accent:#1f6f5c; --accent-ink:#ffffff; --tag:#ece8dc; --warn:#b4541a;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#121417; --ink:#ecebe6; --muted:#a3a7b0; --line:#2a2e35; --card:#191c21; --accent:#5fc3a4; --accent-ink:#0d1512; --tag:#23272e; --warn:#f0a266; }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  header{padding:72px 0 40px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  h1{font-size:clamp(34px,5vw,54px);line-height:1.08;margin:14px 0 18px;letter-spacing:-.02em;max-width:16ch}
+  .lead{font-size:19px;color:var(--muted);max-width:62ch;margin:0}
+  .who{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:28px;font-size:15px}
+  .who a{text-decoration:none;border-bottom:1px solid var(--line)}
+  .who a:hover{border-color:var(--accent)}
+  .story{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:44px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
+  .story div{padding:18px 20px;border-right:1px solid var(--line)}
+  .story div:last-child{border-right:0}
+  .story b{display:block;font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+  .story span{font-size:17px;font-weight:600}
+  section.p{padding:64px 0;border-bottom:1px solid var(--line)}
+  .num{font:700 14px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent)}
+  h2{font-size:clamp(26px,3.2vw,34px);line-height:1.15;margin:10px 0 10px;letter-spacing:-.01em}
+  .one{font-size:18px;color:var(--muted);margin:0 0 24px;max-width:70ch}
+  .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:start}
+  .shot{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 12px 40px -22px rgba(0,0,0,.35)}
+  .shot img{display:block;width:100%;height:auto}
+  .shot figcaption{font-size:13px;color:var(--muted);padding:9px 14px;border-top:1px solid var(--line)}
+  h3{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+  .block{margin-bottom:22px}
+  .block p{margin:0}
+  ul.res{margin:0;padding:0;list-style:none}
+  ul.res li{padding:7px 0 7px 22px;position:relative;border-bottom:1px dashed var(--line)}
+  ul.res li:last-child{border-bottom:0}
+  ul.res li::before{content:"→";position:absolute;left:0;color:var(--accent);font-weight:700}
+  .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .tags span{background:var(--tag);border-radius:999px;padding:3px 11px;font-size:13px}
+  .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px;border:1px solid var(--line);background:var(--card)}
+  .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .btn:hover{transform:translateY(-1px)}
+  .note{font-size:13px;color:var(--muted);margin-top:10px}
+  .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;margin-top:6px}
+  .flow i{font-style:normal;background:var(--tag);padding:4px 9px;border-radius:6px}
+  .flow em{font-style:normal;color:var(--muted)}
+  footer{padding:48px 0 70px;color:var(--muted);font-size:14px}
+  .skills{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+  .skills div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .skills b{display:block;margin-bottom:4px;color:var(--ink)}
+  .en{font-size:14px;color:var(--muted);margin-top:14px}
+  @media (max-width:820px){
+    .grid{grid-template-columns:1fr}
+    .story{grid-template-columns:1fr}
+    .story div{border-right:0;border-bottom:1px solid var(--line)}
+    .skills{grid-template-columns:1fr 1fr}
+    header{padding-top:48px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Portfolio · automatyzacja procesów i AI w e-commerce</div>
+    <h1>Patryk Stańczuk</h1>
+    <p class="lead">Buduję automatyzacje, które zdejmują z ludzi powtarzalną pracę w sklepach internetowych: raportowanie, obsługę zamówień i odpowiadanie klientom. Make, Python, API i modele językowe, zawsze z jasnym miejscem na decyzję człowieka.</p>
+    <div class="who">
+      <a href="https://github.com/Stanczuq">github.com/Stanczuq</a>
+      <span>Polska · praca zdalna / hybrydowa</span>
+      <span>Make Foundation L1–L3</span>
+      <span>Studia: AI w biznesie</span>
+    </div>
+    <div class="story">
+      <div><b>01 · Analiza</b><span>Co się dzieje w sprzedaży?</span></div>
+      <div><b>02 · Operacje</b><span>Jak obsłużyć każde zamówienie?</span></div>
+      <div><b>03 · Klient</b><span>Jak odpowiedzieć od razu i bezpiecznie?</span></div>
+    </div>
+    <p class="en">Three connected projects for one fictional supplements store, <b>VitaForge</b>: a sales dashboard with an automated weekly report, end-to-end order automation in Make, and an AI customer-service assistant with guardrails and evaluation. English summaries are at the bottom of each project's README.</p>
+  </div>
+</header>
+
+<main>
+
+<section class="p" id="dashboard">
+  <div class="wrap">
+    <div class="num">01</div>
+    <h2>Dashboard sprzedażowy z automatycznym raportem tygodniowym</h2>
+    <p class="one">Sklep sprzedaje w trzech kanałach (sklep WWW, Allegro, Amazon). Zamiast kilku godzin sklejania eksportów w Excelu co poniedziałek o 7:00 raport sam ląduje w skrzynce, z alertami i konkretnym działaniem do wykonania.</p>
+    <div class="grid">
+      <figure class="shot" style="margin:0">
+        <img src="01-dashboard-sprzedazowy/docs/screenshots/dashboard_hero.png" alt="Dashboard sprzedażowy VitaForge" loading="lazy">
+        <figcaption>Interaktywny dashboard: działa offline, bez licencji BI</figcaption>
+      </figure>
+      <div>
+        <div class="block"><h3>Co robi</h3>
+          <p>Czyści ~24 tys. wierszy z „brudnych” eksportów, liczy KPI według jednej definicji (marża po prowizjach i po reklamie, ROAS, zwroty, retencja), wykrywa anomalie i wysyła raport PDF, e-mail i alerty przez Make.</p></div>
+        <div class="block"><h3>Efekt</h3>
+          <ul class="res">
+            <li>0 minut ręcznej pracy nad raportem tygodniowym</li>
+            <li>raport wskazał przyczynę spadku Allegro o 17%: brak bestsellera, a nie spadek popytu</li>
+            <li>marża po reklamie pokazała, że Allegro zarabia więcej niż własny sklep (~40% vs ~24%)</li>
+          </ul></div>
+        <div class="tags"><span>Python</span><span>pandas</span><span>ETL</span><span>HTML/SVG</span><span>Make</span><span>GitHub Actions</span></div>
+      </div>
+    </div>
+    <div class="btns">
+      <a class="btn primary" href="01-dashboard-sprzedazowy/dashboard/index.html">Otwórz dashboard na żywo</a>
+      <a class="btn" href="01-dashboard-sprzedazowy/reports/2026-W47/raport_2026-W47.pdf">Przykładowy raport PDF</a>
+      <a class="btn" href="https://github.com/Stanczuq/portfolio/tree/main/01-dashboard-sprzedazowy">Kod i opis</a>
+    </div>
+  </div>
+</section>
+
+<section class="p" id="make">
+  <div class="wrap">
+    <div class="num">02</div>
+    <h2>Automatyzacja obsługi zamówień w Make</h2>
+    <p class="one">Od nowego zamówienia do faktury, etykiety InPost i maila do klienta, bez ręcznej pracy. Człowiek dostaje tylko wyjątki: błędne dane, podejrzane zamówienia i braki towaru.</p>
+    <div class="grid">
+      <figure class="shot" style="margin:0" id="make-shot">
+        <img src="02-automatyzacja-zamowien-make/docs/screenshots/01-scenariusz-glowny.png" alt="Scenariusz główny w Make" loading="lazy"
+             onerror="this.closest('figure').style.display='none';document.getElementById('make-flow').style.display='block'">
+        <figcaption>Scenariusz główny w Make: 5 tras, każde zamówienie trafia dokładnie do jednej</figcaption>
+      </figure>
+      <div id="make-flow" class="shot" style="display:none;padding:20px">
+        <h3>Przepływ</h3>
+        <div class="flow"><i>Webhook Shopify</i><em>→</em><i>Walidacja + ryzyko 0–135 pkt</i><em>→</em><i>Data store: duplikat?</i><em>→</em><i>Router</i></div>
+        <div class="flow" style="margin-top:10px"><em>A</em><i>duplikat → log</i><em>B</em><i>błędne dane → mail do obsługi</i></div>
+        <div class="flow"><em>C</em><i>ryzyko ≥ 50 → Slack, decyzja człowieka</i></div>
+        <div class="flow"><em>D</em><i>magazyn</i><em>→</em><i>faktura (API)</i><em>→</em><i>przesyłka InPost (API)</i><em>→</em><i>mail z trackingiem</i></div>
+        <div class="flow" style="margin-top:10px"><em>codziennie 8:00</em><i>niskie stany → jeden mail do każdego dostawcy</i></div>
+      </div>
+      <div>
+        <div class="block"><h3>Decyzje, które robią różnicę</h3>
+          <ul class="res">
+            <li>idempotencja: ponowiony webhook nie wystawi drugiej faktury</li>
+            <li>stan magazynu zdejmowany na końcu: awaria API nie rozjeżdża magazynu</li>
+            <li>punktowy model ryzyka: blokuje kombinacja sygnałów, a nie jeden</li>
+            <li>symulator w Pythonie zapisuje oczekiwaną trasę każdego zamówienia, więc wynik Make da się zweryfikować</li>
+          </ul></div>
+        <div class="tags"><span>Make</span><span>Router i filtry</span><span>Data store</span><span>Error handling</span><span>REST API</span><span>Google Sheets</span><span>Gmail</span><span>Slack</span><span>Python</span></div>
+      </div>
+    </div>
+    <div class="btns">
+      <a class="btn primary" href="https://github.com/Stanczuq/portfolio/tree/main/02-automatyzacja-zamowien-make">Opis, blueprinty i symulator</a>
+      <a class="btn" href="https://github.com/Stanczuq/portfolio/blob/main/02-automatyzacja-zamowien-make/docs/instrukcja-budowy.md">Scenariusz moduł po module</a>
+    </div>
+  </div>
+</section>
+
+<section class="p" id="asystent">
+  <div class="wrap">
+    <div class="num">03</div>
+    <h2>Asystent AI obsługi klienta</h2>
+    <p class="one">Odpowiada klientom sklepu na podstawie regulaminu, zamówień i stanów magazynu. Model językowy pisze odpowiedź, ale o tym, czy trafi do klienta, decydują reguły biznesowe: wysłać, dać konsultantowi do akceptacji albo przekazać człowiekowi.</p>
+    <div class="grid">
+      <figure class="shot" style="margin:0">
+        <img src="03-asystent-ai-obslugi-klienta/docs/screenshots/01-status-zamowienia.png" alt="Widget czatu z panelem pod maską" loading="lazy">
+        <figcaption>Widget czatu z panelem „pod maską”: decyzja, intencja, źródła</figcaption>
+      </figure>
+      <div>
+        <div class="block"><h3>Bezpieczeństwo przed efektownością</h3>
+          <ul class="res">
+            <li>dane zamówienia tylko dla właściciela (weryfikacja e-maila)</li>
+            <li>pytania zdrowotne i groźby prawne zawsze do człowieka</li>
+            <li>obrona przed prompt injection i strażnik halucynacji</li>
+            <li>ewaluacja na zestawie kontrolnym: <b>0 niebezpiecznych automatycznych odpowiedzi</b></li>
+          </ul></div>
+        <div class="tags"><span>Claude API</span><span>RAG (BM25)</span><span>Guardrails</span><span>Ewaluacja LLM</span><span>FastAPI</span><span>Make</span><span>pytest</span></div>
+      </div>
+    </div>
+    <div class="btns">
+      <a class="btn primary" href="03-asystent-ai-obslugi-klienta/web/index.html">Porozmawiaj z asystentem</a>
+      <a class="btn" href="https://github.com/Stanczuq/portfolio/tree/main/03-asystent-ai-obslugi-klienta">Kod, ewaluacja i opis</a>
+    </div>
+    <p class="note">Demo w przeglądarce uruchamia prawdziwy kod Pythona projektu (tryb offline) przez Pyodide. Pierwsze ładowanie trwa kilka sekund.</p>
+  </div>
+</section>
+
+<section class="p" id="kompetencje" style="border-bottom:0">
+  <div class="wrap">
+    <h2>Co łączy te projekty</h2>
+    <div class="skills">
+      <div><b>Proces przed narzędziem</b>Każdy projekt zaczyna się od kosztu biznesowego: godzin pracy, zwrotów, błędów.</div>
+      <div><b>Człowiek w pętli</b>Automat robi rutynę, wyjątki trafiają do człowieka z gotowym kontekstem.</div>
+      <div><b>Niezawodność</b>Idempotencja, ponowienia, kolejność operacji odporna na awarie.</div>
+      <div><b>Mierzalność</b>Testy, ewaluacja i oczekiwane wyniki zapisane przed uruchomieniem.</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Dane we wszystkich projektach dotyczą fikcyjnego sklepu VitaForge i są wygenerowane. ·
+    Kod: <a href="https://github.com/Stanczuq/portfolio">github.com/Stanczuq/portfolio</a> ·
+    Uruchomienie lokalne: <code>START.bat</code> w repozytorium.
+  </div>
+</footer>
+
+</body>
+</html>

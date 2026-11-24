@@ -1,0 +1,46 @@
+# Co poniedziałek o 7:00 (czasu polskiego zimą) generuje raport za poprzedni tydzień,
+# publikuje dashboard na GitHub Pages i przekazuje raport do Make (e-mail, Slack, Google Sheets).
+name: Raport tygodniowy sprzedaży
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"        # poniedziałek 06:00 UTC
+  workflow_dispatch:            # ręczne uruchomienie lub wywołanie z Make (HTTP → GitHub API)
+    inputs:
+      week:
+        description: "Tydzień ISO, np. 2026-W47 (puste = ostatni pełny)"
+        required: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Instalacja zależności
+        run: pip install -r requirements.txt
+      - name: Fonty z polskimi znakami
+        run: sudo apt-get update && sudo apt-get install -y fonts-inter fonts-dejavu
+      - name: Pipeline (dane → dashboard → raport → Make)
+        env:
+          MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
+        run: |
+          python run_all.py ${{ github.event.inputs.week && format('--week {0}', github.event.inputs.week) || '' }} \
+            --dashboard-url "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+      - name: Archiwum raportu
+        uses: actions/upload-artifact@v4
+        with:
+          name: raport-tygodniowy
+          path: reports/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dashboard/
+      - uses: actions/deploy-pages@v4

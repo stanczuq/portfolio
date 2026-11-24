@@ -1,0 +1,69 @@
+{
+  "id": 17955054139559,
+  "name": "#23964",
+  "order_number": 23964,
+  "email": "zakupy23964@mailinator.com",
+  "phone": "+48 519 995 312",
+  "created_at": "2026-11-24T08:30:13+01:00",
+  "currency": "PLN",
+  "financial_status": "pending",
+  "gateway": "cash_on_delivery",
+  "source_name": "web",
+  "customer": {
+    "id": 7000061079,
+    "first_name": "Tomasz",
+    "last_name": "Lewandowski",
+    "email": "zakupy23964@mailinator.com",
+    "orders_count": 1
+  },
+  "billing_address": {
+    "first_name": "Tomasz",
+    "last_name": "Lewandowski",
+    "address1": "ul. Kwiatowa 49",
+    "city": "Kraków",
+    "zip": "30-001",
+    "country_code": "PL",
+    "phone": "+48 519 995 312"
+  },
+  "shipping_address": {
+    "first_name": "Tomasz",
+    "last_name": "Lewandowski",
+    "address1": "ul. Kwiatowa 49",
+    "city": "Warszawa",
+    "zip": "00-950",
+    "country_code": "PL",
+    "phone": "+48 519 995 312"
+  },
+  "line_items": [
+    {
+      "id": 17955054646888,
+      "sku": "WHY-2K",
+      "title": "Białko Whey 2 kg",
+      "quantity": 4,
+      "price": "219.00"
+    },
+    {
+      "id": 17955054466551,
+      "sku": "CIT-300",
+      "title": "Cytrulina 300 g",
+      "quantity": 12,
+      "price": "79.00"
+    }
+  ],
+  "shipping_lines": [
+    {
+      "title": "InPost Paczkomat 24/7",
+      "code": "inpost_locker",
+      "price": "0.00"
+    }
+  ],
+  "note_attributes": [
+    {
+      "name": "paczkomat",
+      "value": "WAW01M"
+    }
+  ],
+  "tags": "",
+  "subtotal_price": "1824.00",
+  "total_price": "1824.00"
+}

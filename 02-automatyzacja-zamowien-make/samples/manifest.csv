@@ -1,0 +1,14 @@
+﻿nr;shopify_id;scenariusz;opis;wartosc;ryzyko_pkt;powody_ryzyka;bledy;oczekiwana_trasa;odpowiedz_make
+#23956;17955054139551;ok;poprawne zamówienie;236.00;0;;;D2: realizacja;-
+#23957;17955054139552;ok;poprawne zamówienie;223.00;0;;;D2: realizacja;-
+#23958;17955054139553;stockout;zawiera wyprzedany produkt KRE-500;183.00;0;;;D1: brak towaru;-
+#23959;17955054139554;ok;poprawne zamówienie;47.99;0;;;D2: realizacja;-
+#23960;17955054139555;ok;poprawne zamówienie;85.99;0;;;D2: realizacja;-
+#23961;17955054139556;ok;poprawne zamówienie;189.99;0;;;D2: realizacja;-
+#23962;17955054139557;ok;poprawne zamówienie;492.00;0;;;D2: realizacja;-
+#23963;17955054139558;duplicate;duplikat: oryginał;150.99;0;;;D2: realizacja;-
+#23963;17955054139558;duplicate;duplikat: ponowna dostawa webhooka;150.99;0;;;A: duplikat;-
+#23964;17955054139559;risk;podejrzane: nowy klient, jednorazowy e-mail, 12 szt., inne miasto, pobranie;1824.00;135;"wysoka wartość; nowy klient z dużym koszykiem; jednorazowy e-mail; różne miasto faktury i dostawy; duża ilość jednego produktu; pobranie przy wysokiej kwocie";;C: do weryfikacji;-
+#23965;17955054139560;ok;poprawne zamówienie;207.00;0;;;D2: realizacja;-
+#23966;17955054139561;invalid;błędne dane (zip);124.99;0;;nieprawidłowy kod pocztowy;B: błędne dane;-
+#23967;17955054139562;ok;poprawne zamówienie;136.99;0;;;D2: realizacja;-

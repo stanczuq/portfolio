@@ -1,0 +1,64 @@
+{
+  "id": 17955054139561,
+  "name": "#23966",
+  "order_number": 23966,
+  "email": "katarzyna.mazur@example.com",
+  "phone": "+48 576 475 271",
+  "created_at": "2026-11-24T08:30:13+01:00",
+  "currency": "PLN",
+  "financial_status": "paid",
+  "gateway": "blik",
+  "source_name": "web",
+  "customer": {
+    "id": 7000031378,
+    "first_name": "Katarzyna",
+    "last_name": "Mazur",
+    "email": "katarzyna.mazur@example.com",
+    "orders_count": 5
+  },
+  "billing_address": {
+    "first_name": "Katarzyna",
+    "last_name": "Mazur",
+    "address1": "ul. Leśna 99",
+    "city": "Gdańsk",
+    "zip": "80-001",
+    "country_code": "PL",
+    "phone": "+48 576 475 271"
+  },
+  "shipping_address": {
+    "first_name": "Katarzyna",
+    "last_name": "Mazur",
+    "address1": "ul. Leśna 99",
+    "city": "Gdańsk",
+    "zip": "80001",
+    "country_code": "PL",
+    "phone": "+48 576 475 271"
+  },
+  "line_items": [
+    {
+      "id": 17955054806908,
+      "sku": "CAF-200",
+      "title": "Kofeina 200 kaps.",
+      "quantity": 1,
+      "price": "29.00"
+    },
+    {
+      "id": 17955054782567,
+      "sku": "CIT-300",
+      "title": "Cytrulina 300 g",
+      "quantity": 1,
+      "price": "79.00"
+    }
+  ],
+  "shipping_lines": [
+    {
+      "title": "Kurier InPost",
+      "code": "inpost_courier",
+      "price": "16.99"
+    }
+  ],
+  "note_attributes": [],
+  "tags": "",
+  "subtotal_price": "108.00",
+  "total_price": "124.99"
+}
